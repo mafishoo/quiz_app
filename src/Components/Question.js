@@ -2,7 +2,7 @@
  function Question (props){
     return (
         <div> 
-        <h1> Quiz app </h1>
+        <h1> {props.title}</h1>
         <ul>
             {
             props.quizDatas.map(quiz =>

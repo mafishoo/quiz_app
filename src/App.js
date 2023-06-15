@@ -1,24 +1,44 @@
 import logo from './logo.svg';
 import './App.css';
 import Question from './Components/Question';
+import { Component, useEffect, useState } from 'react';
 
-const quizData = [
-  {
-    question: "What is the capital of France?",
-    options: ["Paris", "London", "Berlin", "Rome"],
-    correctAnswer: "Paris"
-  },
-  {
-    question: "which planet is known as the Red Planet?",
-    options: ["venus", "Mars", "Jupiter", "Saturn"],
-    correctAnswer: "Mars"
-  }
-]
+
+
+
 
 function App() {
-  return (
+  
+  const [quizData, setQuizData] =useState([]);
+  const [title, setTitle] = useState("")
+  
+  useEffect(() => {
+    // API request code here
+    fetch("http://localhost:3000/quizData")
+    .then(res => res.json())
+    .then(data =>{
+      console.log("data",data) // for testing 
+      setQuizData(data)})
+    .catch(err=>console.error(err))
+    
+    
+    fetch("http://localhost:3000/title")
+    .then(res => res.json())
+    .then(res =>  {
+        console.log("title from the response",res.title) // get the title frome response
+        setTitle(res.title) // set the title using state
+        console.log("title after changing state",title) // 
+
+    })
+    .catch(err=>console.error(err))
+  }, []); // Empty dependency array to execute once on component mount
+  
+   
+      
+  
+return (
     <div className="App">
-      <Question  quizDatas = {quizData} />
+    {quizData &&  <Question title = {title}  quizDatas = {quizData} />}
       
     </div>
   );
